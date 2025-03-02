@@ -1,0 +1,32 @@
+# 传送请求持续时间，以下单位均为s
+RequestLifeTime: 60
+# 传送延迟，为0时即关闭延迟
+TeleportDelay: 0
+# 传送冷却
+TeleportCooldown: 0
+# 主城坐标(x,y,z)，未指定时默认主世界出生点
+#Hub-Location:
+#  x: 283
+#  y: 205
+#  z: -2246
+
+# 以下为传送信息
+Console-Cant-Use: "§6你一控制台↑瞎掺和↓嘛~？"
+Request-Timeout: "§c你的传送请求已超时！"
+Request-Not-Found: "§c你没有待接受的传送请求！"
+Player-Not-Found: "§c此玩家不存在！"
+Send-Go-Request: "§6你向§c%player%§6发送了传送请求！请求有效时间：§c%lifetime%§6"
+Receive-Go-Request: "§c%player%§6请求传送到§c你§6这这里！请求有效时间：§c%lifetime%§6s"
+Send-Come-Request: "§6你请求§c%player%§6传送到§c你§6这里！请求有效时间：§c%lifetime%§6s"
+Receive-Come-Request: "§c%player%§6请求你传送到§c对方§6那里！请求有效时间：§c%lifetime%§6"
+Accept-Request-Without-Delay: "§6你接受了传送请求! 传送中..."
+Accept-Request: "§6你接受了传送请求！距离传送还有§c%delay% s§6..."
+Request-Be-Accepted-Without-Delay: "§c%player%§6接受了你的传送请求！传送中..."
+Request-Be-Accepted: "§c%player%§6接受了你的传送请求！距离传送还有§c%delay% s§6..."
+Refuse-Request: "§c你拒绝了%player%的传送请求！"
+Request-Be-Refused: "§c%player%拒绝了你的传送请求！"
+Cancel-Request: "§c你取消了对%player%的传送请求！"
+Request-Be-Canceled: "§c%player%取消了传送请求！"
+Teleport-To-Hub: "§6正在返回主城..."
+
+Debug: false

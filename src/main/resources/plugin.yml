@@ -1,0 +1,15 @@
+name: ModernTeleport
+version: '1.0-SNAPSHOT'
+main: org.modernTeleport.ModernTeleport
+api-version: '1.21'
+authors: [ Lin ]
+description: 简单而现代化的传送相关指令插件
+commands:
+  tpa:
+    description: tpa指令，用于玩家之间的传送请求
+    usage: ""
+  tpahelp:
+    description: tpa指令教程
+  hub:
+    description: 返回主城
+    usage: ""
