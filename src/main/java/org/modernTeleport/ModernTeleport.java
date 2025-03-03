@@ -13,7 +13,7 @@ public final class ModernTeleport extends JavaPlugin {
     final List<TeleportRequest> Requests = new ArrayList<>();
     final List<TeleportRequest> DeadRequests = new ArrayList<>();
     final List<TeleportRequest> NewRequests = new ArrayList<>();
-
+    final int LIFETIME = this.getConfig().getInt("RequestLifeTime");
     @Override
     public void onEnable() {
         SayToConsole("插件已启动！");

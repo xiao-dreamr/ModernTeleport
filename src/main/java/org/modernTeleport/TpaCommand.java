@@ -1,5 +1,10 @@
 package org.modernTeleport;
 
+import net.md_5.bungee.api.ChatColor;
+import net.md_5.bungee.api.chat.ClickEvent;
+import net.md_5.bungee.api.chat.HoverEvent;
+import net.md_5.bungee.api.chat.TextComponent;
+import net.md_5.bungee.api.chat.hover.content.Text;
 import org.bukkit.Bukkit;
 import org.bukkit.Sound;
 import org.bukkit.command.Command;
@@ -9,11 +14,15 @@ import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.Objects;
 import javax.annotation.ParametersAreNonnullByDefault;
 
 public class TpaCommand implements TabExecutor {
     ModernTeleport plugin;
+    final List<String> FIRST_COMMANDS = List.of(
+            "go", "come", "refuse",
+            "accept", "cancel", "auto", "ignore");
 
     public TpaCommand(ModernTeleport plugin){
         this.plugin = plugin;
@@ -47,39 +56,63 @@ public class TpaCommand implements TabExecutor {
                     new TeleportRequest(
                         Sender,
                         Target,
-                        plugin.getConfig().getInt("RequestLifeTime"),
+                        plugin.LIFETIME,
                         plugin.getConfig().getInt("TeleportDelay"),
                         RequestType.Go));
                 Sender.sendMessage(
                         Objects.requireNonNull(plugin.getConfig().getString("Send-Go-Request"))
                             .replace("%player%", Target.getName())
-                            .replace("%lifetime%",String.valueOf(plugin.getConfig().getInt("RequestLifeTime"))));
+                            .replace("%lifetime%",String.valueOf(plugin.LIFETIME)));
                 Target.sendMessage(
                         Objects.requireNonNull(plugin.getConfig().getString("Receive-Go-Request"))
                             .replace("%player%", Sender.getName())
-                            .replace("%lifetime%",String.valueOf(plugin.getConfig().getInt("RequestLifeTime"))));
+                            .replace("%lifetime%",String.valueOf(plugin.LIFETIME)));
                 // 播放提示音
                 Target.getWorld().playSound(Target, Sound.BLOCK_NOTE_BLOCK_BELL,1,1);
+                if(plugin.getConfig().getBoolean("Shortcut-Shown")){
+                    TextComponent acceptButton = new TextComponent("【接受请求】");
+                    TextComponent refuseButton = new TextComponent("【拒绝请求】");
+                    acceptButton.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/tpa accept "+Sender.getName()));
+                    refuseButton.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/tpa refuse "+Sender.getName()));
+                    acceptButton.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new Text("点击接受"+Sender.getName()+"的传送请求")));
+                    refuseButton.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new Text("点击拒绝"+Sender.getName()+"的传送请求")));
+                    acceptButton.setColor(ChatColor.DARK_GREEN);
+                    refuseButton.setColor(ChatColor.RED);
+                    Target.spigot().sendMessage(acceptButton);
+                    Target.spigot().sendMessage(refuseButton);
+                }
                 return true;
             case "come":
                 plugin.NewRequests.add(
                 new TeleportRequest(
                         Sender,
                         Target,
-                        plugin.getConfig().getInt("RequestLifeTime"),
+                        plugin.LIFETIME,
                         plugin.getConfig().getInt("TeleportDelay"),
                         RequestType.Come));
                 Sender.getRespawnLocation();
                 Sender.sendMessage(
                         Objects.requireNonNull(plugin.getConfig().getString("Send-Come-Request"))
                                 .replace("%player%", Target.getName())
-                                .replace("%lifetime%",String.valueOf(plugin.getConfig().getInt("RequestLifeTime"))));
+                                .replace("%lifetime%",String.valueOf(plugin.LIFETIME)));
                 Target.sendMessage(
                         Objects.requireNonNull(plugin.getConfig().getString("Receive-Come-Request"))
                                 .replace("%player%", Sender.getName())
-                                .replace("%lifetime%",String.valueOf(plugin.getConfig().getInt("RequestLifeTime"))));
+                                .replace("%lifetime%",String.valueOf(plugin.LIFETIME)));
                 // 播放提示音
                 Target.getWorld().playSound(Target, Sound.BLOCK_NOTE_BLOCK_BELL,1,1);
+                if(plugin.getConfig().getBoolean("Shortcut-Shown")){
+                    TextComponent acceptButton = new TextComponent("【接受请求】");
+                    TextComponent refuseButton = new TextComponent("【拒绝请求】");
+                    acceptButton.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/tpa accept "+Sender.getName()));
+                    refuseButton.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/tpa refuse "+Sender.getName()));
+                    acceptButton.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new Text("点击接受"+Sender.getName()+"的传送请求")));
+                    refuseButton.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new Text("点击拒绝"+Sender.getName()+"的传送请求")));
+                    acceptButton.setColor(ChatColor.DARK_GREEN);
+                    refuseButton.setColor(ChatColor.RED);
+                    Target.spigot().sendMessage(acceptButton);
+                    Target.spigot().sendMessage(refuseButton);
+                }
                 return true;
             case "accept":
                 request = plugin.Requests.stream()
@@ -156,19 +189,14 @@ public class TpaCommand implements TabExecutor {
     public List<String> onTabComplete(CommandSender sender, Command command, String label, String[] args) {
         List<String> OutArgs = new ArrayList<>();
         if (args.length == 1) {
-            OutArgs.add("go");
-            OutArgs.add("come");
-            OutArgs.add("refuse");
-            OutArgs.add("accept");
-            OutArgs.add("cancel");
-            OutArgs.add("auto");
-            OutArgs.add("ignore");
+            OutArgs.addAll(FIRST_COMMANDS.stream()
+                    .filter(s -> s.toLowerCase(Locale.ROOT).startsWith(args[0]))
+                    .toList());
         } else if (args.length == 2) {
             if (args[0].equalsIgnoreCase("go")) {
                 for (Player player : Bukkit.getOnlinePlayers()) {
                     OutArgs.add(player.getName());
                 }
-
             } else if (args[0].equalsIgnoreCase("come")) {
                 for (Player player : Bukkit.getOnlinePlayers()) {
                     OutArgs.add(player.getName());
@@ -197,14 +225,9 @@ public class TpaCommand implements TabExecutor {
                 }
             }
             // 找到与玩家输入内容匹配的玩家
-            List<String> MatchedPlayers =
-                    OutArgs.stream()
-                        .filter(s -> s.contains(args[1]))
-                        .toList();
-            // 移除与输入匹配的玩家名称
-            OutArgs.removeAll(MatchedPlayers);
-            // 改为在首项添加
-            OutArgs.addAll(0,MatchedPlayers);
+            return OutArgs.stream()
+                .filter(s -> s.toLowerCase(Locale.ROOT).startsWith(args[1]))
+                .toList();
         }
         return OutArgs;
     }

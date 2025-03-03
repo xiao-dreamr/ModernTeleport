@@ -1,6 +1,9 @@
 package org.modernTeleport;
 
+import org.bukkit.Sound;
 import org.bukkit.scheduler.BukkitRunnable;
+
+import java.util.Objects;
 
 public class RequestsUpdater extends BukkitRunnable {
     ModernTeleport plugin;
@@ -37,6 +40,16 @@ public class RequestsUpdater extends BukkitRunnable {
                         request.target.sendMessage(plugin.getConfig().getString("Request-Timeout"));
                     }
                     request.TimePass();
+                    if(request.maxtime == request.lifetime*5){
+                        request.target.getWorld().playSound(request.target, Sound.BLOCK_NOTE_BLOCK_BELL,1,1);
+                        request.requester.getWorld().playSound(request.requester, Sound.BLOCK_NOTE_BLOCK_BELL,1,1);
+                        request.requester.sendMessage(
+                                Objects.requireNonNull(plugin.getConfig().getString("Request-Will-Timeout"))
+                                        .replace("%lifetime%",String.valueOf(request.lifetime)));
+                        request.target.sendMessage(
+                                Objects.requireNonNull(plugin.getConfig().getString("Request-Will-Timeout"))
+                                        .replace("%lifetime%",String.valueOf(request.lifetime)));
+                    }
             }
         }
         // 此处不需要上锁，因为DeadRequests只在RequestUpdater内部进行操作
@@ -53,11 +66,15 @@ public class RequestsUpdater extends BukkitRunnable {
             if(request.type==RequestType.Go){
                 request.requester.teleport(request.target);
                 // GO:请求者->目标
+                request.requester.getWorld().playSound(request.requester, Sound.ITEM_CHORUS_FRUIT_TELEPORT, 1,1);
+                request.target.getWorld().playSound(request.target, Sound.ITEM_CHORUS_FRUIT_TELEPORT, 1,1);
                 request.Disable();
                 plugin.DeadRequests.add(request);
             } else if (request.type == RequestType.Come) {
                 // Come:目标->请求者
                 request.target.teleport(request.requester);
+                request.requester.getWorld().playSound(request.requester, Sound.ITEM_CHORUS_FRUIT_TELEPORT, 1,1);
+                request.target.getWorld().playSound(request.target, Sound.ITEM_CHORUS_FRUIT_TELEPORT, 1,1);
                 request.Disable();
                 plugin.DeadRequests.add(request);
             }

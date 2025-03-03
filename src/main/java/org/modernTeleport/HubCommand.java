@@ -2,6 +2,7 @@ package org.modernTeleport;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.Sound;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -38,6 +39,7 @@ public class HubCommand implements CommandExecutor {
                     plugin.getConfig().getInt("Hub-Location.z"));
 
         Sender.teleport(hubLocation);
+        Sender.getWorld().playSound(Sender, Sound.ITEM_CHORUS_FRUIT_TELEPORT, 1,1);
         return true;
     }
 }
