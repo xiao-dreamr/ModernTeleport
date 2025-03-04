@@ -5,11 +5,11 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.Objects;
 
-public class RequestsUpdater extends BukkitRunnable {
+public class TeleportRequestsUpdater extends BukkitRunnable {
     ModernTeleport plugin;
 
 
-    public RequestsUpdater(ModernTeleport plugin){
+    public TeleportRequestsUpdater(ModernTeleport plugin){
         this.plugin = plugin;
     }
 

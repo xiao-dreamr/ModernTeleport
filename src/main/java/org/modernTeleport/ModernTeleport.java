@@ -13,14 +13,15 @@ public final class ModernTeleport extends JavaPlugin {
     final List<TeleportRequest> Requests = new ArrayList<>();
     final List<TeleportRequest> DeadRequests = new ArrayList<>();
     final List<TeleportRequest> NewRequests = new ArrayList<>();
-    final int LIFETIME = this.getConfig().getInt("RequestLifeTime");
+    final int LIFETIME = this.getConfig().getInt("Request-Lifetime");
     @Override
     public void onEnable() {
         SayToConsole("插件已启动！");
         Objects.requireNonNull(Bukkit.getPluginCommand("tpa")).setExecutor(new TpaCommand(this));
         Objects.requireNonNull(Bukkit.getPluginCommand("hub")).setExecutor(new HubCommand(this));
+        Objects.requireNonNull(Bukkit.getPluginCommand("tpr")).setExecutor(new TprCommand(this));
         Objects.requireNonNull(Bukkit.getPluginCommand("tpahelp")).setExecutor(new TpaHelpCommand());
-        new RequestsUpdater(this).start();
+        new TeleportRequestsUpdater(this).start();
         this.saveDefaultConfig();
     }
 

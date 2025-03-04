@@ -1,7 +1,7 @@
 # 传送请求持续时间，以下单位均为s
-RequestLifeTime: 60
+Request-Lifetime: 60
 # 传送延迟，为0时即关闭延迟
-TeleportDelay: 0
+Teleport-Delay: 0
 # 传送冷却
 TeleportCooldown: 0
 # 主城坐标(x,y,z)，未指定时默认主世界出生点
@@ -9,6 +9,8 @@ TeleportCooldown: 0
 #  x: 283
 #  y: 205
 #  z: -2246
+Random-Range: 1000
+#随机传送半径
 
 #是否显示【接受】【拒绝】按钮
 Shortcut-Shown: true

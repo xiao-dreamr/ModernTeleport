@@ -1,5 +1,5 @@
 name: ModernTeleport
-version: '1.1'
+version: '1.2'
 main: org.modernTeleport.ModernTeleport
 api-version: '1.21'
 authors: [ Lin ]
@@ -8,6 +8,10 @@ commands:
   tpa:
     description: tpa指令，用于玩家之间的传送请求
     usage: ""
+  tpr:
+    description: tpr指令，用于随机传送
+    usage: ""
+    aliases: [rtp]
   tpahelp:
     description: tpa指令教程
   hub:

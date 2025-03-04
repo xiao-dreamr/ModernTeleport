@@ -7,22 +7,20 @@ import net.md_5.bungee.api.chat.TextComponent;
 import net.md_5.bungee.api.chat.hover.content.Text;
 import org.bukkit.Bukkit;
 import org.bukkit.Sound;
+import org.bukkit.block.Block;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabExecutor;
 import org.bukkit.entity.Player;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Locale;
-import java.util.Objects;
+import java.util.*;
 import javax.annotation.ParametersAreNonnullByDefault;
 
 public class TpaCommand implements TabExecutor {
     ModernTeleport plugin;
     final List<String> FIRST_COMMANDS = List.of(
             "go", "come", "refuse",
-            "accept", "cancel", "auto", "ignore");
+            "accept", "cancel", "auto", "ignore", "random");
 
     public TpaCommand(ModernTeleport plugin){
         this.plugin = plugin;
@@ -37,7 +35,9 @@ public class TpaCommand implements TabExecutor {
             return false;
         }
         Player Sender = (Player) sender;
-        if(args.length < 2){
+        Player Target;
+        if(args.length<2){
+            // 若args小于等于1，且如果有参数，则不能为random
             // 至少需要两个参数
             // 即/tpa [go | here | refuse | accept | cancel | ignore | auto] <player> (accept|refuse)
             Sender.performCommand("tpahelp");
@@ -46,8 +46,10 @@ public class TpaCommand implements TabExecutor {
             // 如果tpa的玩家不存在
             Sender.sendMessage(plugin.getConfig().getString("Player-Not-Found"));
             return false;
+        }else{
+            Target = Objects.requireNonNull(Bukkit.getPlayer(args[1]));
         }
-        Player Target = Objects.requireNonNull(Bukkit.getPlayer(args[1]));
+
         TeleportRequest request;
         switch (args[0]){
             case "go":
@@ -57,7 +59,7 @@ public class TpaCommand implements TabExecutor {
                         Sender,
                         Target,
                         plugin.LIFETIME,
-                        plugin.getConfig().getInt("TeleportDelay"),
+                        plugin.getConfig().getInt("Teleport-Delay"),
                         RequestType.Go));
                 Sender.sendMessage(
                         Objects.requireNonNull(plugin.getConfig().getString("Send-Go-Request"))
@@ -88,7 +90,7 @@ public class TpaCommand implements TabExecutor {
                         Sender,
                         Target,
                         plugin.LIFETIME,
-                        plugin.getConfig().getInt("TeleportDelay"),
+                        plugin.getConfig().getInt("Teleport-Delay"),
                         RequestType.Come));
                 Sender.getRespawnLocation();
                 Sender.sendMessage(
@@ -126,13 +128,13 @@ public class TpaCommand implements TabExecutor {
                     return false;
                 }
                 request.Wait();
-                int delay = plugin.getConfig().getInt("TeleportDelay");
+                int delay = plugin.getConfig().getInt("Teleport-Delay");
                 Sender.sendMessage(
                         Objects.requireNonNull(plugin.getConfig().getString(delay==0?"Accept-Request-Without-Delay":"Accept-Request"))
-                                .replace("%delay%",String.valueOf(plugin.getConfig().getInt("TeleportDelay"))));
+                                .replace("%delay%",String.valueOf(plugin.getConfig().getInt("Teleport-Delay"))));
                 Target.sendMessage(
                         Objects.requireNonNull(plugin.getConfig().getString(delay==0?"Request-Be-Accepted-Without-Delay":"Request-Be-Accepted"))
-                            .replace("%delay%",String.valueOf(plugin.getConfig().getInt("TeleportDelay")))
+                            .replace("%delay%",String.valueOf(plugin.getConfig().getInt("Teleport-Delay")))
                             .replace("%player%", Sender.getName()));
                 // 播放提示音
                 Target.getWorld().playSound(Target, Sound.BLOCK_NOTE_BLOCK_BELL,1,1);
