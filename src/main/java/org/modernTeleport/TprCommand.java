@@ -10,6 +10,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.util.Vector;
 
 import javax.annotation.ParametersAreNonnullByDefault;
+import java.util.Objects;
 import java.util.Random;
 
 public class TprCommand implements CommandExecutor {
@@ -30,6 +31,11 @@ public class TprCommand implements CommandExecutor {
         Location location = Sender.getWorld().getHighestBlockAt(x,z).getLocation();
         Sender.teleport(location.add(new Vector(0,1,0)));
         Sender.getWorld().playSound(Sender, Sound.ITEM_CHORUS_FRUIT_TELEPORT, 1,1);
+        Sender.sendMessage(
+                Objects.requireNonNull(
+                        plugin.getConfig().getString("Random-Teleport"))
+                        .replace("%range%",String.valueOf(randomRange))
+        );
         return true;
     }
 }

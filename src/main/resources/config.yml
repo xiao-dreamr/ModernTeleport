@@ -1,39 +1,81 @@
 # 传送请求持续时间，以下单位均为s
 Request-Lifetime: 60
-# 传送延迟，为0时即关闭延迟
+
+# 传送延迟，为0时关闭延迟
 Teleport-Delay: 0
-# 传送冷却
-TeleportCooldown: 0
-# 主城坐标(x,y,z)，未指定时默认主世界出生点
+
+# 传送冷却(尚未实现)
+Teleport-Cooldown: 0
+
+# 主城坐标(x,y,z,yaw,pitch)，未指定时默认主世界出生点，yaw和pitch未指定时默认0
+# yaw表示沿y轴的旋转角度，即“偏航角”，pitch表示沿x轴，即“俯仰角”，yaw∈[-180°,180°], pitch∈[-90°,90°]
+# 在F3界面的“Facing”一栏中的最后两个数字即(yaw, pitch)
 #Hub-Location:
 #  x: 283
 #  y: 205
 #  z: -2246
-Random-Range: 1000
+#  yaw: 0
+#  pitch: 90
+
 #随机传送半径
+Random-Range: 1000
 
 #是否显示【接受】【拒绝】按钮
 Shortcut-Shown: true
 
-# 以下为传送信息
-Console-Cant-Use: "§6你一控制台↑瞎掺和↓嘛~？"
-Request-Timeout: "§c你的传送请求已超时！"
-Request-Not-Found: "§c你没有可处理的传送请求！"
-Player-Not-Found: "§c此玩家不存在！"
-Send-Go-Request: "§6你向§c%player%§6发送了传送请求！请求有效时间：§c%lifetime%§6"
-Receive-Go-Request: "§c%player%§6请求传送到§c你§6这这里！请求有效时间：§c%lifetime%§6s"
-Send-Come-Request: "§6你请求§c%player%§6传送到§c你§6这里！请求有效时间：§c%lifetime%§6s"
-Receive-Come-Request: "§c%player%§6请求你传送到§c对方§6那里！请求有效时间：§c%lifetime%§6"
-Accept-Request-Without-Delay: "§6你接受了传送请求! 传送中..."
-Accept-Request: "§6你接受了传送请求！距离传送还有§c%delay% s§6..."
-Request-Be-Accepted-Without-Delay: "§c%player%§6接受了你的传送请求！传送中..."
-Request-Be-Accepted: "§c%player%§6接受了你的传送请求！距离传送还有§c%delay% s§6..."
-Refuse-Request: "§c你拒绝了%player%的传送请求！"
-Request-Be-Refused: "§c%player%拒绝了你的传送请求！"
-Cancel-Request: "§c你取消了对%player%的传送请求！"
-Request-Be-Canceled: "§c%player%取消了传送请求！"
-Request-Will-Timeout: "§c你的传送请求还有%lifetime%s超时！"
-Teleport-To-Hub: "§6正在返回主城..."
-
 # 是否为调试模式
 Debug: false
+
+# ======================传送信息======================
+# 控制台使用时的警告
+Console-Cant-Use: "§6控制台不可以使用tpa喵！（凶）"
+
+# 传送请求超时
+Request-Timeout: "§c你的传送请求已超时！"
+
+# 未找到传送请求
+Request-Not-Found: "§c你没有可处理的传送请求！"
+
+# 未找到对应玩家
+Player-Not-Found: "§c此玩家不存在！"
+
+# 发送Go请求时，发送给请求者的消息
+Send-Go-Request: "§6你向§c%player%§6发送了传送请求！请求有效时间：§c%lifetime%§6"
+
+# 发送Go请求时，发送给目标的消息
+Receive-Go-Request: "§c%player%§6请求传送到§c你§6这这里！请求有效时间：§c%lifetime%§6s"
+
+# 发送Come请求时，发送给请求者的消息
+Send-Come-Request: "§6你请求§c%player%§6传送到§c你§6这里！请求有效时间：§c%lifetime%§6s"
+
+# 发送Come请求时，发送给目标的消息
+Receive-Come-Request: "§c%player%§6请求你传送到§c对方§6那里！请求有效时间：§c%lifetime%§6"
+
+# 接受请求时，发送给目标的消息
+Accept-Request-Without-Delay: "§6你接受了传送请求! 传送中..."
+Accept-Request: "§6你接受了传送请求！距离传送还有§c%delay% s§6..."
+
+# 接受请求时，发送给请求者的消息
+Request-Be-Accepted-Without-Delay: "§c%player%§6接受了你的传送请求！传送中..."
+Request-Be-Accepted: "§c%player%§6接受了你的传送请求！距离传送还有§c%delay% s§6..."
+
+# 请求被拒绝时，发送给目标的消息
+Refuse-Request: "§c你拒绝了%player%的传送请求！"
+
+# 请求被拒绝时，发送给请求者的消息
+Request-Be-Refused: "§c%player%拒绝了你的传送请求！"
+
+# 取消请求时，发送给请求者的消息
+Cancel-Request: "§c你取消了对%player%的传送请求！"
+
+# 取消请求时，发送给目标的消息
+Request-Be-Canceled: "§c%player%取消了传送请求！"
+
+# 超时预警
+Request-Will-Timeout: "§c你的传送请求还有%lifetime%s超时！"
+
+# 返回主城
+Teleport-To-Hub: "§6正在返回主城..."
+
+# 随机传送
+Random-Teleport: "§6正在随机传送，随机半径§c%range%§6格..."

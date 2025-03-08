@@ -34,9 +34,12 @@ public class HubCommand implements CommandExecutor {
                 :
                 new Location(
                     Bukkit.getWorlds().getFirst(),
-                    plugin.getConfig().getInt("Hub-Location.x"),
-                    plugin.getConfig().getInt("Hub-Location.y"),
-                    plugin.getConfig().getInt("Hub-Location.z"));
+                    plugin.getConfig().getDouble("Hub-Location.x"),
+                    plugin.getConfig().getDouble("Hub-Location.y"),
+                    plugin.getConfig().getDouble("Hub-Location.z"),
+                    (float) plugin.getConfig().getDouble("Hub-Location.yaw"),
+                    (float) plugin.getConfig().getDouble("Hub-Location.pitch")
+                );
 
         Sender.teleport(hubLocation);
         Sender.getWorld().playSound(Sender, Sound.ITEM_CHORUS_FRUIT_TELEPORT, 1,1);
