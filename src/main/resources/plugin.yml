@@ -1,5 +1,5 @@
 name: ModernTeleport
-version: '1.3'
+version: '1.3.2'
 main: org.modernTeleport.ModernTeleport
 api-version: '1.21'
 authors: [ Lin ]
@@ -16,4 +16,7 @@ commands:
     description: tpa指令教程
   hub:
     description: 返回主城
+    usage: ""
+  tpaReload:
+    description: 重新加载tpa插件
     usage: ""

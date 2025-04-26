@@ -3,7 +3,7 @@ plugins {
 }
 
 group = 'org.modernTeleport.ModernTeleport'
-version = 'v1.3'
+version = 'v1.3.1'
 
 repositories {
     mavenCentral()

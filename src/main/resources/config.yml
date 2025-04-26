@@ -79,3 +79,9 @@ Teleport-To-Hub: "§6正在返回主城..."
 
 # 随机传送
 Random-Teleport: "§6正在随机传送，随机半径§c%range%§6格..."
+
+Plugin-Reloading: "§6正在重载配置喵..."
+
+Plugin-Reload-Successful: "§6重载完毕！"
+
+Plugin-Reload-Failed: "§c重载失败！"

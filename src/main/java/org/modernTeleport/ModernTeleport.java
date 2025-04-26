@@ -20,6 +20,7 @@ public final class ModernTeleport extends JavaPlugin {
         Objects.requireNonNull(Bukkit.getPluginCommand("tpa")).setExecutor(new TpaCommand(this));
         Objects.requireNonNull(Bukkit.getPluginCommand("hub")).setExecutor(new HubCommand(this));
         Objects.requireNonNull(Bukkit.getPluginCommand("tpr")).setExecutor(new TprCommand(this));
+        Objects.requireNonNull(Bukkit.getPluginCommand("tpareload")).setExecutor(new TpaReloadCommand(this));
         Objects.requireNonNull(Bukkit.getPluginCommand("tpahelp")).setExecutor(new TpaHelpCommand());
         new TeleportRequestsUpdater(this).start();
         this.saveDefaultConfig();
